@@ -5,7 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>QR 編碼器</title>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode/1.4.4/qrcode.min.js"></script>
+  
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -37,7 +39,6 @@
       overflow-x: hidden;
     }
 
-    /* Grid background */
     body::before {
       content: '';
       position: fixed;
@@ -61,10 +62,7 @@
       gap: 2rem;
     }
 
-    /* Header */
-    header {
-      text-align: left;
-    }
+    header { text-align: left; }
     .tag {
       font-family: 'Space Mono', monospace;
       font-size: 0.7rem;
@@ -80,17 +78,9 @@
       line-height: 1.1;
       color: var(--text);
     }
-    h1 span {
-      color: var(--accent);
-    }
-    .subtitle {
-      margin-top: 0.5rem;
-      font-size: 0.85rem;
-      color: var(--muted);
-      font-weight: 300;
-    }
+    h1 span { color: var(--accent); }
+    .subtitle { margin-top: 0.5rem; font-size: 0.85rem; color: var(--muted); font-weight: 300; }
 
-    /* Card */
     .card {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -101,12 +91,7 @@
       gap: 1.4rem;
     }
 
-    /* Input area */
-    .input-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
+    .input-group { display: flex; flex-direction: column; gap: 0.5rem; }
     label {
       font-family: 'Space Mono', monospace;
       font-size: 0.72rem;
@@ -130,24 +115,10 @@
       width: 100%;
     }
     textarea::placeholder { color: var(--muted); }
-    textarea:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px var(--glow);
-    }
+    textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--glow); }
 
-    /* Options row */
-    .options-row {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-    .option-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
-      flex: 1;
-      min-width: 120px;
-    }
+    .options-row { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .option-group { display: flex; flex-direction: column; gap: 0.4rem; flex: 1; min-width: 120px; }
     select {
       background: var(--bg);
       border: 1px solid var(--border);
@@ -162,7 +133,6 @@
     }
     select:focus { border-color: var(--accent); }
 
-    /* Button */
     .btn {
       background: var(--accent);
       border: none;
@@ -178,20 +148,10 @@
       text-transform: uppercase;
       width: 100%;
     }
-    .btn:hover {
-      background: #a0ffb0;
-      box-shadow: 0 0 20px var(--glow);
-      transform: translateY(-1px);
-    }
+    .btn:hover { background: #a0ffb0; box-shadow: 0 0 20px var(--glow); transform: translateY(-1px); }
     .btn:active { transform: translateY(0); }
 
-    /* QR Output */
-    .qr-output {
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      gap: 1.4rem;
-    }
+    .qr-output { display: none; flex-direction: column; align-items: center; gap: 1.4rem; }
     .qr-output.visible { display: flex; }
 
     .qr-frame {
@@ -201,37 +161,22 @@
       border-radius: 12px;
       box-shadow: 0 0 40px rgba(127,255,110,0.12);
       animation: fadeIn 0.4s ease;
-    }
-    .qr-frame canvas, .qr-frame img {
-      display: block;
-    }
-
-    /* Corner decorations */
-    .qr-frame::before,
-    .qr-frame::after {
-      content: '';
-      position: absolute;
-      width: 20px;
-      height: 20px;
-      border-color: var(--accent);
-      border-style: solid;
-    }
-    .qr-frame::before {
-      top: -4px; left: -4px;
-      border-width: 3px 0 0 3px;
-      border-radius: 4px 0 0 0;
-    }
-    .qr-frame::after {
-      bottom: -4px; right: -4px;
-      border-width: 0 3px 3px 0;
-      border-radius: 0 0 4px 0;
-    }
-
-    .qr-actions {
+      min-width: 160px;
+      min-height: 160px;
       display: flex;
-      gap: 0.8rem;
-      width: 100%;
+      justify-content: center;
+      align-items: center;
     }
+    .qr-frame img { display: block; margin: 0 auto; max-width: 100%; }
+
+    .qr-frame::before, .qr-frame::after {
+      content: ''; position: absolute; width: 20px; height: 20px;
+      border-color: var(--accent); border-style: solid;
+    }
+    .qr-frame::before { top: -4px; left: -4px; border-width: 3px 0 0 3px; border-radius: 4px 0 0 0; }
+    .qr-frame::after { bottom: -4px; right: -4px; border-width: 0 3px 3px 0; border-radius: 0 0 4px 0; }
+
+    .qr-actions { display: flex; gap: 0.8rem; width: 100%; }
     .btn-secondary {
       background: transparent;
       border: 1px solid var(--border);
@@ -247,19 +192,9 @@
       transition: border-color 0.2s, color 0.2s, background 0.2s;
       text-transform: uppercase;
     }
-    .btn-secondary:hover {
-      border-color: var(--accent2);
-      color: var(--accent2);
-      background: rgba(61,255,208,0.05);
-    }
+    .btn-secondary:hover { border-color: var(--accent2); color: var(--accent2); background: rgba(61,255,208,0.05); }
 
-    .char-count {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.72rem;
-      color: var(--muted);
-      text-align: right;
-      letter-spacing: 0.05em;
-    }
+    .char-count { font-family: 'Space Mono', monospace; font-size: 0.72rem; color: var(--muted); text-align: right; letter-spacing: 0.05em; }
     .char-count.warn { color: #ffb347; }
 
     @keyframes fadeIn {
@@ -267,13 +202,7 @@
       to   { opacity: 1; transform: scale(1) translateY(0); }
     }
 
-    footer {
-      text-align: center;
-      font-size: 0.72rem;
-      color: var(--muted);
-      font-family: 'Space Mono', monospace;
-      letter-spacing: 0.05em;
-    }
+    footer { text-align: center; font-size: 0.72rem; color: var(--muted); font-family: 'Space Mono', monospace; letter-spacing: 0.05em; }
   </style>
 </head>
 <body>
@@ -326,7 +255,7 @@
     </div>
   </div>
 
-  <footer>Made with QRCode.js &nbsp;·&nbsp; HTML5 Only</footer>
+  <footer>Made with modern QRCode &nbsp;·&nbsp; Bulletproof Edition</footer>
 </div>
 
 <script>
@@ -339,68 +268,89 @@
     charCount.classList.toggle('warn', len > 1500);
   });
 
-  // Enter shortcut (Ctrl/Cmd+Enter)
   input.addEventListener('keydown', e => {
     if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) generateQR();
   });
 
   function generateQR() {
-    const text = input.value.trim();
-    if (!text) {
-      input.focus();
-      input.style.borderColor = '#ff6b6b';
-      setTimeout(() => input.style.borderColor = '', 800);
-      return;
+    try {
+      const text = input.value.trim();
+      if (!text) {
+        input.focus();
+        input.style.borderColor = '#ff6b6b';
+        setTimeout(() => input.style.borderColor = '', 800);
+        return;
+      }
+
+      // 【防呆機制 1】檢查網路套件是否有成功載入
+      if (typeof QRCode === 'undefined') {
+        alert('❌ 錯誤：QR Code 核心套件未載入！\n請確認網路連線正常，或重新整理頁面。');
+        return;
+      }
+      
+      // 【防呆機制 2】檢查是否有拷貝不完整導致新舊代碼衝突
+      if (typeof QRCode.toDataURL !== 'function') {
+        alert('⚠️ 偵測到新舊代碼衝突！\n請務必將原本的 HTML 內容全部刪除清空後，重新貼上這整份最新的程式碼！');
+        return;
+      }
+
+      const size = parseInt(document.getElementById('size-select').value);
+      const ecl  = document.getElementById('ecl-select').value;
+      const container = document.getElementById('qrcode');
+      
+      // 顯示產生中的提示
+      container.innerHTML = '<span style="color:var(--muted);font-size:0.8rem;">處理中...</span>';
+
+      // 這次改用 toDataURL，直接產生乾淨的圖片來源
+      QRCode.toDataURL(text, {
+        width: size,
+        margin: 1,
+        errorCorrectionLevel: ecl,
+        color: {
+          dark: '#000000',
+          light: '#ffffff'
+        }
+      }, function (error, url) {
+        if (error) {
+          console.error(error);
+          alert('產生失敗：' + error.message);
+          container.innerHTML = '';
+        } else {
+          container.innerHTML = `<img src="${url}" id="qr-img" alt="QR Code">`;
+          const output = document.getElementById('qr-output');
+          output.classList.add('visible');
+          output.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+      });
+    } catch (err) {
+      alert('程式發生例外錯誤：' + err.message);
     }
-
-    const size = parseInt(document.getElementById('size-select').value);
-    const ecl  = document.getElementById('ecl-select').value;
-    const eclMap = { L: QRCode.CorrectLevel.L, M: QRCode.CorrectLevel.M,
-                     Q: QRCode.CorrectLevel.Q, H: QRCode.CorrectLevel.H };
-
-    const container = document.getElementById('qrcode');
-    container.innerHTML = '';
-
-    new QRCode(container, {
-      text,
-      width: size,
-      height: size,
-      colorDark: '#000000',
-      colorLight: '#ffffff',
-      correctLevel: eclMap[ecl]
-    });
-
-    const output = document.getElementById('qr-output');
-    output.classList.add('visible');
-    output.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  }
-
-  function getCanvas() {
-    return document.querySelector('#qrcode canvas');
   }
 
   function downloadQR() {
-    const canvas = getCanvas();
-    if (!canvas) return;
+    const img = document.getElementById('qr-img');
+    if (!img) return;
     const link = document.createElement('a');
     link.download = 'qrcode.png';
-    link.href = canvas.toDataURL('image/png');
+    link.href = img.src;
     link.click();
   }
 
   async function copyQR() {
-    const canvas = getCanvas();
-    if (!canvas) return;
+    const img = document.getElementById('qr-img');
+    if (!img) return;
     try {
-      canvas.toBlob(async blob => {
-        await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
-        const btn = event.target;
-        const orig = btn.textContent;
-        btn.textContent = '✓ 已複製！';
-        setTimeout(() => btn.textContent = orig, 1800);
-      });
-    } catch {
-      alert('瀏覽器不支援複製圖片，請改用下載。');
+      // 將 DataURL 轉換為可複製的 Blob 格式
+      const res = await fetch(img.src);
+      const blob = await res.blob();
+      await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+      
+      const btn = event.target;
+      const orig = btn.textContent;
+      btn.textContent = '✓ 已複製！';
+      setTimeout(() => btn.textContent = orig, 1800);
+    } catch (err) {
+      alert('您的瀏覽器不支援直接複製圖片，請改用「下載 PNG」，或對圖片按右鍵選擇複製。');
     }
   }
 
